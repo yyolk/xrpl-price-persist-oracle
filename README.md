@@ -11,7 +11,7 @@ Also see [the DEV post](https://dev.to/wietse/aggregated-xrp-usd-price-info-on-t
 
 This Oracle is coded in python and built as a [Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/).
 
-[An example testnet account.][example-testnet-account]
+[**An example testnet account.**][example-testnet-account]
 
 
 # Deploying to your AWS account
