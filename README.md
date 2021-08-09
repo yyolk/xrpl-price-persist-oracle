@@ -36,7 +36,7 @@ sam deploy --guided
 This will walk you through the deployment of the Oracle, name the stack input
 the parameters (the wallet seed will is `NoEcho`). You can accept all the
 defaults (including the stack name) and you'll be persisting aggregate prices
-to the XRPL Testnet. ([An example testnet account.](https://testnet.xrpl.org/accounts/rD7UmX2MYYKwnnv3tbxojLoFX2r58nfJS4))
+to the XRPL Testnet. ([An example testnet account.](https://testnet.xrpl.org/accounts/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN))
 
 
 
