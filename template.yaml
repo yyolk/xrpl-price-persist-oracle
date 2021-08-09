@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >-
+  XRPL-Price-Persist-Oracle
+
+Parameters:
+  XRPLNodeJsonRpcUrl:
+    Type: String
+    Description: >-
+      The endpoint to use to connect to the XRPL, this can be a custom node endpoint.
+      The default is a Testnet node endpoint, use https://xrplcluster.com (or your own node) for Livenet
+    Default: https://s.altnet.rippletest.net:51234/
+  XRPLNodeEnvironment:
+    Type: String
+    Description: >-
+      Is this the Testnet or Livenet? This is used for development,
+      if the node is in the Testnet the oracle will TrustSet
+      to FOO. If on the Livenet, the oracle will TrustSet to USD.
+    AllowedValues:
+      - Testnet
+      - Livenet
+    Default: Testnet
+  WalletSecret:
+    Type: String
+    NoEcho: True
+    Description: >-
+      This is the wallet seed's secret for persisting the price.
+      This wallet's seed will be used to sign transactions.
+ 
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    # we should always be below this, emprically, this runs at ~30 seconds
+    Timeout: 40
+    MemorySize: 128
+
+
+Resources:
+  OracleFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: oracle/
+      Handler: app.handler
+      Runtime: python3.8
+      Environment:
+        Variables:
+          WALLET_SECRET: !Ref WalletSecret
+          XRPL_JSON_RPC_URL: !Ref XRPLNodeJsonRpcUrl
+          XRPL_NODE_ENVIRONMENT: !Ref XRPLNodeEnvironment
+      Events:
+        OracleInvokeInterval:
+          Type: Schedule
+          Properties:
+            Schedule: rate(1 minute)
+            Description: The interval this function will be invoked
+            Enabled: true
+      Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: xrpl-oracle/test/wallet/secret
+
+Outputs:
+  OracleFunction:
+    Description: "Oracle Function ARN"
+    Value: !GetAtt OracleFunction.Arn
+  OracleFunctionIamRole:
+    Description: "Implicit IAM Role created for Oracle Function"
+    Value: !GetAtt OracleFunctionRole.Arn
+
