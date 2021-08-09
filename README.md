@@ -39,7 +39,8 @@ the parameters (the wallet seed parameter is
 [`NoEcho`](#note-on-noecho-cloudformation-parameter-for-wallet-secret-seed))
 
 
-You can accept all the defaults (including the stack name) and you'll be persisting aggregate prices
+Besides the one required parameter without a default (the wallet secret seed),
+you can accept all the defaults (including the stack name) and you'll be persisting aggregate prices
 to the XRPL Testnet. ([An example testnet account.][example-testnet-account])
 
 
@@ -75,17 +76,16 @@ function using a KMS call.
 
 Alternatively you might want to call some key management service / secrets
 management service independently.
+There is two other AWS services that you could use, for managing encrypted secrets in transit.
 
-Theres two other AWS services that you could use, for managing encrypted
-secrets in transit.
 
-Another option is to use Simple Systems Manager (`ssm`, specifically `ssm-encrypted`
+One is Simple Systems Manager (`ssm`, specifically `ssm-encrypted`
 parameter store type).
 This includes some additional costs if the function needs to cold start (assuming you're
 persisting the client in the outer scope for subsequent executions).
 (_see [Sharing Secrets with AWS Lambda Using AWS Systems Manager Parameter Store](https://aws.amazon.com/blogs/compute/sharing-secrets-with-aws-lambda-using-aws-systems-manager-parameter-store/)_)
 
-Another option is to use `aws-secrets-manager`, which is also an additional cost.
+Another is Secrets Manager `aws-secrets-manager`, which is also an additional cost.
 (_see [secretsmanager_basics.py](https://docs.aws.amazon.com/code-samples/latest/catalog/python-secretsmanager-secretsmanager_basics.py.html)_)
 
 There are many options! This is just a minimal example :)
