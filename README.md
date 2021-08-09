@@ -38,6 +38,10 @@ This will walk you through the deployment of the Oracle, name the stack input
 the parameters (the wallet seed parameter is
 [`NoEcho`](#note-on-noecho-cloudformation-parameter-for-wallet-secret-seed))
 
+You may generate a Testnet wallet at the Testnet faucet: https://xrpl.org/xrp-testnet-faucet.html
+Click "Generate Testnet Credentials" and use the **Secret** as
+the input to the `WalletSecret` parameter.
+
 
 Besides the one required parameter without a default (the wallet secret seed),
 you can accept all the defaults (including the stack name) and you'll be persisting aggregate prices
