@@ -11,6 +11,7 @@ Also see [the DEV post](https://dev.to/wietse/aggregated-xrp-usd-price-info-on-t
 
 This Oracle is coded in python and built as a [Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/).
 
+[An example testnet account.][example-testnet-account]
 
 
 # Deploying to your AWS account
@@ -34,10 +35,22 @@ sam deploy --guided
 ```
 
 This will walk you through the deployment of the Oracle, name the stack input
-the parameters (the wallet seed will is `NoEcho`). You can accept all the
-defaults (including the stack name) and you'll be persisting aggregate prices
-to the XRPL Testnet. ([An example testnet account.](https://testnet.xrpl.org/accounts/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN))
+the parameters (the wallet seed parameter is
+[`NoEcho`](#note-on-noecho-cloudformation-parameter-for-wallet-secret-seed))
 
+
+You can accept all the defaults (including the stack name) and you'll be persisting aggregate prices
+to the XRPL Testnet. ([An example testnet account.][example-testnet-account])
+
+
+After deployment, you can tail the logs of the function like, where
+`my-stack-name` is what you chose to name your stack during the `--guided`
+deploy, if you chose the default it's `sam-stack`:
+
+
+```sh
+sam logs --stack-name my-stack-name -n OracleFunction -t
+```
 
 
 # Note on `NoEcho` Cloudformation Parameter for Wallet Secret Seed
@@ -76,3 +89,7 @@ Another option is to use `aws-secrets-manager`, which is also an additional cost
 (_see [secretsmanager_basics.py](https://docs.aws.amazon.com/code-samples/latest/catalog/python-secretsmanager-secretsmanager_basics.py.html)_)
 
 There are many options! This is just a minimal example :)
+
+
+
+[example-testnet-account]: https://testnet.xrpl.org/accounts/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN "An example testnet account"
