@@ -5,18 +5,19 @@ import os
 import logging
 
 from binascii import hexlify
+from typing import List
 
 import xrp_price_aggregate
 
-from xrpl.clients import JsonRpcClient
-from xrpl.models.transactions import TrustSet
-from xrpl.models.transactions import Memo, TrustSetFlag
-from xrpl.models.amounts import IssuedCurrencyAmount
-from xrpl.transaction import safe_sign_transaction, send_reliable_submission
-from xrpl.ledger import get_fee, get_latest_validated_ledger_sequence
 from xrpl.account import get_next_valid_seq_number
-from xrpl.wallet import Wallet
+from xrpl.clients import JsonRpcClient
+from xrpl.ledger import get_fee, get_latest_validated_ledger_sequence
+from xrpl.models.amounts import IssuedCurrencyAmount
+from xrpl.models.transactions import Memo, TrustSetFlag
+from xrpl.models.transactions import TrustSet
+from xrpl.transaction import safe_sign_transaction, send_reliable_submission
 from xrpl.utils import ripple_time_to_datetime
+from xrpl.wallet import Wallet
 
 
 XRPL_JSON_RPC_URL = os.environ["XRPL_JSON_RPC_URL"]
@@ -71,7 +72,7 @@ def gen_iou_amount(value: str) -> IssuedCurrencyAmount:
     )
 
 
-def gen_memos(raw_results_named):
+def gen_memos(raw_results_named) -> List[Memo]:
     """The attached memos, which will include our price data for verifiability
 
     This will generate the List of Memos for including in the TrustSet
@@ -141,7 +142,7 @@ def handler(
 
     # Generate the memos we'll attach to the transaction, for independent
     # verification of results
-    memos = gen_memos(xrp_agg["raw_results_named"])
+    memos: List[Memo] = gen_memos(xrp_agg["raw_results_named"])
 
     # Generate the IssuedCurrencyAmount with the provided value
     iou_amount: IssuedCurrencyAmount = gen_iou_amount(str(xrp_agg["filtered_median"]))
@@ -170,7 +171,7 @@ def handler(
             ripple_time_to_datetime(tx_response.result["date"]),
         )
     else:
-        # NOTE: if the submission errored, we could make it fatal
-        #       instead of just logger.error(...) Lambda will
-        #       retry the function twice for a total of 3 times
+        # NOTE: if the submission errored, we could raise an exception
+        #       instead of just logger.error(...)
+        #       Lambda will retry the function twice for a total of 3 times
         logger.error("Unsucessful transaction response: %s", tx_response)
