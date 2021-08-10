@@ -1,4 +1,4 @@
-# xrpl-price-persist-Oracle-sam
+# xrpl-price-persist-oracle-sam
 
 
 This is a XRPL Oracle that publishes external data into the XRPL.
