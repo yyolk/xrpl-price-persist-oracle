@@ -1,3 +1,9 @@
+# This is in conversation with emphasizing the null functional difference
+# of smart contracts and serverless architectures. Suppostion: smart
+# contracts are popular because you don't have to run servers
+# This solution provides a functional-facsimile to the developer at
+# $0.00 cost as a result of the economies of scale of the services this
+# portable architecture (Serverless Application Model [SAM]) provides.
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: >-
@@ -26,6 +32,17 @@ Parameters:
     Description: >-
       This is the wallet seed's secret for persisting the price.
       This wallet's seed will be used to sign transactions.
+  GitCommit:
+    Type: String
+    Default: ""
+    Description: >-
+      This input is fed directly to the function's environment variables that can be deployed publicly.
+      This is fed in during deployment (such as a public gh-action) which can then be atomically verified through the public,
+      distributed-ledger known as the XRPL
+
+      # This SHA can then be included in the attached memos or as a live endpoint providing it's deployed SHA.
+      # This can provide verification through timed events in trustless and public platforms, with the results deployed to the block chain.
+      
  
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
@@ -48,6 +65,7 @@ Resources:
           WALLET_SECRET: !Ref WalletSecret
           XRPL_JSON_RPC_URL: !Ref XRPLNodeJsonRpcUrl
           XRPL_NODE_ENVIRONMENT: !Ref XRPLNodeEnvironment
+          GIT_COMMIT: !Ref GitCommit
       Events:
         OracleInvokeInterval:
           Type: Schedule
