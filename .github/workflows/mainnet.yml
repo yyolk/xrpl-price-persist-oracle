@@ -1,21 +1,19 @@
-name: CD
+name: Mainnet
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    # branches: [ $default-branch ]
-    branches: [ dev-gh-action ]
-  # pull_request:
-  #   branches: [ $default-branch ]
+    branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build-deploy:
+    environment:
+      name: mainnet
+      url: https://explorer.xrplf.org/rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -28,33 +26,29 @@ jobs:
         with:
           python-version: 3.8
       - uses: aws-actions/setup-sam@v1
-      # - uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     aws-region: us-east-2
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
       - name: Build
         run: sam build
       - name: Deploy
         env:
           XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
           XRPL_NODE_ENVIRONMENT: Livenet
-          ENV_NAME: env.name
+          STACK_NAME: xrpl-price-oracle-sam-livenet
+
         run: >-
-          echo
           sam deploy
           --no-confirm-changeset
           --no-fail-on-empty-changeset
-          --stack-name sam-hello-world
+          --stack-name $STACK_NAME
           --capabilities CAPABILITY_IAM
-          --parameter-overrides=
+          --parameter-overrides="
+            ParameterKey=GitCommit,ParameterValue=\"$GITHUB_SHA\"
+            ParameterKey=XRPLNodeJsonRpcUrl,ParamaterValue=\"$XRPL_NODE_JSON_RPC_URL\"
+            ParameterKey=XRPLNodeEnvironment,ParameterValue=\"$XRPL_NODE_ENVIRONMENT\"
           "
-          GIT_COMMIT=\"$GITHUB_SHA\"
-          XRPLNodeJsonRpcUrl=\"$XRPL_NODE_JSON_RPC_URL\"
-          XRPLNodeEnvironment=\"$XRPL_NODE_ENVIRONMENT\"
-          TryingThis=\"$ENV_NAME\"
-          "
-          # --s3-bucket ##s3-bucket##
-          # --region ##region##
-
-      # - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world --s3-bucket ##s3-bucket## --capabilities CAPABILITY_IAM --region ##region##
+          --s3-bucket "${{ secrets.SAM_DEPLOY_BUCKET }}"
+          --region us-east-1

@@ -24,6 +24,10 @@ XRPL_JSON_RPC_URL = os.environ["XRPL_JSON_RPC_URL"]
 XRPL_NODE_ENVIRONMENT = os.environ["XRPL_NODE_ENVIRONMENT"]
 LIVENET = XRPL_NODE_ENVIRONMENT == "Livenet"
 WALLET_SECRET = os.environ["WALLET_SECRET"]
+# with our deployment being encapsulated within lambda and gh-actions, this
+# provides verification of the git-sha as a deployment parameter that is public
+# thorough the open source repo
+GIT_COMMIT = os.environ["GIT_COMMIT"]
 
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
@@ -69,6 +73,17 @@ def gen_iou_amount(value: str) -> IssuedCurrencyAmount:
             else "rPWkTSpLJ2bumVKngjaeznSUUp4wj6tGuK"
         ),
         value=value,
+    )
+
+
+def gen_memo(memo_data: str, memo_format: str, memo_type: str) -> Memo:
+    """Utility for wrapping our encoding requirement"""
+    return Memo(
+        memo_data=hexlify(
+            memo_data.encode("utf-8")
+        ).decode(),
+        memo_format=hexlify(memo_format.encode("utf-8")).decode(),
+        memo_type=hexlify(memo_type.encode("utf-8")).decode(),
     )
 
 
@@ -143,6 +158,11 @@ def handler(
     # Generate the memos we'll attach to the transaction, for independent
     # verification of results
     memos: List[Memo] = gen_memos(xrp_agg["raw_results_named"])
+    # append in our GIT_COMMIT with a more brief but identical token of GITSHA
+    # under an `oracle` prefix
+    memos.append(gen_memo(GIT_COMMIT, "text/plain", "oracle:GITSHA"))
+
+    
 
     # Generate the IssuedCurrencyAmount with the provided value
     iou_amount: IssuedCurrencyAmount = gen_iou_amount(str(xrp_agg["filtered_median"]))
