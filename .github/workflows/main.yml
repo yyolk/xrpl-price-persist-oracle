@@ -49,7 +49,7 @@ jobs:
           --capabilities CAPABILITY_IAM
           --parameter-overrides=
           "
-          GIT_COMMIT=\"$GIT_COMMIT\"
+          GIT_COMMIT=\"$GITHUB_SHA\"
           XRPLNodeJsonRpcUrl=\"$XRPL_NODE_JSON_RPC_URL\"
           XRPLNodeEnvironment=\"$XRPL_NODE_ENVIRONMENT\"
           TryingThis=\"$ENV_NAME\"
