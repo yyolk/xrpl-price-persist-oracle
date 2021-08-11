@@ -66,7 +66,7 @@ to the XRPL Testnet. ([An example testnet account.][example-testnet-account])
 
 After deployment, you can tail the logs of the function like, where
 `my-stack-name` is what you chose to name your stack during the `--guided`
-deploy, if you chose the default it's `sam-stack`:
+deploy, if you chose the default it's `sam-app`:
 
 
 ```sh
