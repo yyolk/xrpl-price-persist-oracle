@@ -48,12 +48,12 @@ jobs:
           --stack-name sam-hello-world
           --capabilities CAPABILITY_IAM
           --parameter-overrides=
-          '
-          GIT_COMMIT="$GIT_COMMIT"
-          XRPLNodeJsonRpcUrl="$XRPL_NODE_JSON_RPC_URL"
-          XRPLNodeEnvironment="$XRPL_NODE_ENVIRONMENT"
-          TryingThis="$ENV_NAME"
-          '
+          "
+          GIT_COMMIT=\"$GIT_COMMIT\"
+          XRPLNodeJsonRpcUrl=\"$XRPL_NODE_JSON_RPC_URL\"
+          XRPLNodeEnvironment=\"$XRPL_NODE_ENVIRONMENT\"
+          TryingThis=\"$ENV_NAME\"
+          "
           # --s3-bucket ##s3-bucket##
           # --region ##region##
 
