@@ -34,6 +34,22 @@ sam build
 sam deploy --guided
 ```
 
+<details>
+<summary>
+
+**Don't feel like doing it yourself? Expand the details here, and see two
+termcasts, one from start to finish, and the second as you iterate (when you
+don't use gh-actions)**
+
+</summary>
+
+1. New stack, accepting all the defaults, besides the wallet secret.
+  - [![asciicast](https://asciinema.org/a/rLjmZcKyQXGCXe4gc2AP62Pyd.svg)](https://asciinema.org/a/rLjmZcKyQXGCXe4gc2AP62Pyd)
+2. A current stack, getting updated and deployed to
+  - [![asciicast](https://asciinema.org/a/w6Mhzh67fnswTdtwKA8KLJdOG.svg)](https://asciinema.org/a/w6Mhzh67fnswTdtwKA8KLJdOG)
+
+</details>
+
 This will walk you through the deployment of the Oracle, name the stack input
 the parameters (the wallet seed parameter is
 [`NoEcho`](#note-on-noecho-cloudformation-parameter-for-wallet-secret-seed))
@@ -47,6 +63,8 @@ Besides the one required parameter without a default (the wallet secret seed),
 you can accept all the defaults (including the stack name) and you'll be persisting aggregate prices
 to the XRPL Testnet. ([An example testnet account.][example-testnet-account])
 
+
+# Tailing Logs
 
 After deployment, you can tail the logs of the function like, where
 `my-stack-name` is what you chose to name your stack during the `--guided`
