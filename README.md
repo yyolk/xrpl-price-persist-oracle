@@ -37,7 +37,7 @@ sam deploy --guided
 <details>
 <summary>
 
-**Don't feel like doing it yourself? Expand me to see termcasts.**
+*Don't feel like doing it yourself? Expand me to see termcasts.*
 
 </summary>
 
