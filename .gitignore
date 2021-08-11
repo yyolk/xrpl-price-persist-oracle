@@ -175,3 +175,5 @@ tags
 # don't check in this! you might include your wallet seed as an
 # override-parameter
 samconfig.toml
+# asciinema recordings
+*.cast
