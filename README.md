@@ -37,9 +37,7 @@ sam deploy --guided
 <details>
 <summary>
 
-**Don't feel like doing it yourself? Expand the details here, and see two
-termcasts, one from start to finish, and the second as you iterate (when you
-don't use gh-actions)**
+**Don't feel like doing it yourself? Expand me to see termcasts.**
 
 </summary>
 
