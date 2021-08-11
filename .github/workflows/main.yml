@@ -33,6 +33,28 @@ jobs:
       #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
       #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       #     aws-region: us-east-2
-      - run: sam build
+      - name: Build
+        run: sam build
+      - name: Deploy
+        env:
+          XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
+          XRPL_NODE_ENVIRONMENT: Livenet
+          ENV_NAME: env.name
+        run: >-
+          echo
+          sam deploy
+          --no-confirm-changeset
+          --no-fail-on-empty-changeset
+          --stack-name sam-hello-world
+          --capabilities CAPABILITY_IAM
+          --parameter-overrides=
+          '
+          GIT_COMMIT="$GIT_COMMIT"
+          XRPLNodeJsonRpcUrl="$XRPL_NODE_JSON_RPC_URL"
+          XRPLNodeEnvironment="$XRPL_NODE_ENVIRONMENT"
+          TryingThis="$ENV_NAME"
+          '
+          # --s3-bucket ##s3-bucket##
+          # --region ##region##
 
       # - run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name sam-hello-world --s3-bucket ##s3-bucket## --capabilities CAPABILITY_IAM --region ##region##
