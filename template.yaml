@@ -58,7 +58,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       CodeUri: oracle/
-      Handler: app.handler
+      Handler: contract.handler
       Runtime: python3.8
       Environment:
         Variables:
