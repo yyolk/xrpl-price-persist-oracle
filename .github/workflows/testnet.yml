@@ -53,7 +53,7 @@ jobs:
           --stack-name $STACK_NAME
           --capabilities CAPABILITY_IAM
           --parameter-overrides="
-            ParameterKey=GitCommit,ParameterValue=\"$GITHUB_SHA\"
+            ParameterKey=GitCommit,ParameterValue=\"$GITHUB_REF\"
             ParameterKey=XRPLNodeJsonRpcUrl,ParamaterValue=\"$XRPL_NODE_JSON_RPC_URL\"
             ParameterKey=XRPLNodeEnvironment,ParameterValue=\"$XRPL_NODE_ENVIRONMENT\"
           "
