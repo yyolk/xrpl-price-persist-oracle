@@ -113,7 +113,7 @@ def gen_memos(raw_results_named) -> List[Memo]:
         memos.append(
             Memo(
                 memo_data=hexlify(
-                    ",".join(map(lambda v: f"{v:.5f}", values)).encode("utf-8")
+                    ";".join(map(lambda v: f"{v:.5f}", values)).encode("utf-8")
                 ).decode(),
                 memo_format=hexlify("text/csv".encode("utf-8")).decode(),
                 memo_type=hexlify(f"rates:{exchange.upper()}".encode("utf-8")).decode(),
