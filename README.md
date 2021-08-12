@@ -1,6 +1,6 @@
 # xrpl-price-persist-oracle-sam
 
-[![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml)
+[![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml) [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml)
 
 This is a XRPL Oracle that publishes external data into the XRPL.
 
@@ -11,8 +11,6 @@ Also see [the DEV post](https://dev.to/wietse/aggregated-xrp-usd-price-info-on-t
 
 
 This Oracle is coded in python and built as a [Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/).
-
-[**An example testnet account.**][example-testnet-account]
 
 
 # Deploying to your AWS account
@@ -60,7 +58,7 @@ the input to the `WalletSecret` parameter.
 
 Besides the one required parameter without a default (the wallet secret seed),
 you can accept all the defaults (including the stack name) and you'll be persisting aggregate prices
-to the XRPL Testnet. ([An example testnet account.][example-testnet-account])
+to the XRPL Testnet.
 
 
 # Tailing Logs
