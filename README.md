@@ -1,6 +1,6 @@
 # xrpl-price-persist-oracle-sam
 
-[![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml)
+[![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml) [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml)
 
 This is a XRPL Oracle that publishes external data into the XRPL.
 
@@ -58,7 +58,7 @@ the input to the `WalletSecret` parameter.
 
 Besides the one required parameter without a default (the wallet secret seed),
 you can accept all the defaults (including the stack name) and you'll be persisting aggregate prices
-to the XRPL Testnet. ([An example testnet account.][example-testnet-account])
+to the XRPL Testnet.
 
 
 # Tailing Logs
