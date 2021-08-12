@@ -26,8 +26,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-        # with:
-        #   ref: ${{ github.event.pull_request.head.sha }}
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -45,8 +45,7 @@ jobs:
           XRPL_NODE_JSON_RPC_URL: https://s.altnet.rippletest.net:51234
           XRPL_NODE_ENVIRONMENT: Testnet
           STACK_NAME: xrpl-price-oracle-sam-test
-          # GIT_COMMIT: ${{ github.event.pull_request.head.sha }}
-          GIT_COMMIT: ${{ github.sha }}
+          GIT_COMMIT: ${{ github.event.pull_request.head.sha }}
 
         run: >-
           sam deploy
