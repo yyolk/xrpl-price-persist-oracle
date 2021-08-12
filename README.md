@@ -1,5 +1,6 @@
 # xrpl-price-persist-oracle-sam
 
+[![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml)
 
 This is a XRPL Oracle that publishes external data into the XRPL.
 
