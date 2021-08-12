@@ -24,7 +24,7 @@ Parameters:
       to FOO. If on the Livenet, the oracle will TrustSet to USD.
     AllowedValues:
       - Testnet
-      - Livenet
+      - Mainnet
     Default: Testnet
   WalletSecret:
     Type: String

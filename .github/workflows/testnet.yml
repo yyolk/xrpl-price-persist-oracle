@@ -1,6 +1,5 @@
 name: Testnet
 
-# Controls when the workflow will run
 on:
   # When you need to test, branch configurations for the mainnet workflow,
   # uncomment this
@@ -12,19 +11,13 @@ on:
   # # Allows you to run this workflow manually from the Actions tab
   # workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build-deploy:
     environment: 
       name: testnet
       url: https://explorer-testnet.xrplf.org/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -46,7 +39,6 @@ jobs:
           XRPL_NODE_ENVIRONMENT: Testnet
           STACK_NAME: xrpl-price-oracle-sam-test
           GIT_COMMIT: ${{ github.event.pull_request.head.sha }}
-
         run: >-
           sam deploy
           --no-confirm-changeset

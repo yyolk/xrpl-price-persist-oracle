@@ -22,7 +22,7 @@ from xrpl.wallet import Wallet
 
 XRPL_JSON_RPC_URL = os.environ["XRPL_JSON_RPC_URL"]
 XRPL_NODE_ENVIRONMENT = os.environ["XRPL_NODE_ENVIRONMENT"]
-LIVENET = XRPL_NODE_ENVIRONMENT == "Livenet"
+MAINNET = XRPL_NODE_ENVIRONMENT == "Mainnet"
 WALLET_SECRET = os.environ["WALLET_SECRET"]
 # with our deployment being encapsulated within lambda and gh-actions, this
 # provides verification of the git-sha as a deployment parameter that is public
@@ -66,10 +66,10 @@ def gen_iou_amount(value: str) -> IssuedCurrencyAmount:
 
     """
     return IssuedCurrencyAmount(
-        currency="USD" if LIVENET else "FOO",
+        currency="USD" if MAINNET else "FOO",
         issuer=(
             "r9PfV3sQpKLWxccdg3HL2FXKxGW2orAcLE"
-            if LIVENET
+            if MAINNET
             else "rPWkTSpLJ2bumVKngjaeznSUUp4wj6tGuK"
         ),
         value=value,
