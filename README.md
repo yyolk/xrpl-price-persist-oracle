@@ -12,6 +12,8 @@ Also see [the DEV post](https://dev.to/wietse/aggregated-xrp-usd-price-info-on-t
 
 This Oracle is coded in python and built as a [Serverless Application Model (SAM)](https://aws.amazon.com/serverless/sam/).
 
+Take a look at the [`contract.handler`](oracle/contract.py) where it's expected to run on any [FaaS](https://en.wikipedia.org/wiki/Function_as_a_service), such as [OpenFaaS](https://github.com/openfaas/faas).
+
 
 # Deploying to your AWS account
 
