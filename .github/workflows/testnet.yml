@@ -2,9 +2,9 @@ name: Testnet
 
 # Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
+  # When you need to test, branch configurations for the mainnet workflow,
+  # uncomment this
   # push:
-  #   # branches: [ $default-branch ]
   #   branches: [ dev-gh-action ]
   pull_request:
     branches: [ main ]
