@@ -39,6 +39,7 @@ jobs:
           XRPL_NODE_ENVIRONMENT: Testnet
           STACK_NAME: xrpl-price-oracle-sam-test
           GIT_COMMIT: ${{ github.event.pull_request.head.sha }}
+          SCHEDULE_INTERVAL: 5
         run: >-
           sam deploy
           --no-confirm-changeset
@@ -49,6 +50,7 @@ jobs:
             ParameterKey=GitCommit,ParameterValue=\"$GIT_COMMIT\"
             ParameterKey=XRPLNodeJsonRpcUrl,ParamaterValue=\"$XRPL_NODE_JSON_RPC_URL\"
             ParameterKey=XRPLNodeEnvironment,ParameterValue=\"$XRPL_NODE_ENVIRONMENT\"
+            ParameterKey=ScheduleInterval,ParameterValue=\"$SCHEDULE_INTERVAL\"
           "
           --s3-bucket "${{ secrets.SAM_DEPLOY_BUCKET }}"
           --region us-east-1

@@ -10,6 +10,12 @@ Description: >-
   XRPL-Price-Persist-Oracle
 
 Parameters:
+  ScheduleInterval:
+    Type: Number
+    Description: >-
+      Frequency in minutes
+    Default: 1
+    MinValue: 1
   XRPLNodeJsonRpcUrl:
     Type: String
     Description: >-
@@ -43,6 +49,14 @@ Parameters:
       # This SHA can then be included in the attached memos or as a live endpoint providing it's deployed SHA.
       # This can provide verification through timed events in trustless and public platforms, with the results deployed to the block chain.
       
+
+Conditions:
+  # https://docs.aws.amazon.com/lambda/latest/dg/services-cloudwatchevents-expressions.html
+  # "For a singular value the unit must be singular (for example, rate(1 day)),
+  # otherwise plural (for example, rate(5 days))."
+  OneMinute: !Equals
+      - !Ref ScheduleInterval
+      - 1
  
 
 # More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
@@ -70,7 +84,10 @@ Resources:
         OracleInvokeInterval:
           Type: Schedule
           Properties:
-            Schedule: rate(1 minute)
+            Schedule: !If
+              - OneMinute 
+              - rate(1 minute)
+              - !Sub "rate(${ScheduleInterval} minutes)"
             Description: The interval this function will be invoked
             Enabled: true
       Policies:
