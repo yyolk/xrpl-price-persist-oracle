@@ -15,6 +15,7 @@ Parameters:
     Description: >-
       Frequency in minutes
     Default: 1
+    MinValue: 1
   XRPLNodeJsonRpcUrl:
     Type: String
     Description: >-
