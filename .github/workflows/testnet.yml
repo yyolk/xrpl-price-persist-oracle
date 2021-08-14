@@ -31,6 +31,7 @@ jobs:
       - name: Get short SHA
         id: short_sha
         run: echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
+      - run: echo ${{ steps.short_sha.outputs.short_sha }}
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
