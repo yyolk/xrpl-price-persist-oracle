@@ -5,6 +5,7 @@ import os
 import logging
 
 from binascii import hexlify
+from json import JSONDecodeError
 from typing import List
 
 import xrp_price_aggregate
@@ -199,8 +200,19 @@ def handler(
             raise err
         if str(err).startswith("Transaction failed, tefPAST_SEQ"):
             # we should retry, we didn't match our expected SLA
+            logger.error("we got a failed transaction past our expected SLA")
             return
         if str(err).startswith("Transaction failed, terQUEUED"):
             # our txn will send, this is fine?
+            logger.info("Our txn send reliable submission failed with terQUEUED")
             return
         logger.error("Got unexpected XRPLReliableSubmissionException: %s", err)
+    except JSONDecodeError as err:
+        logger.error(
+            (
+                "Got a JSONDecodeError %s, retrying the transaction by"
+                " failing this execution"
+            ),
+            err,
+        )
+        raise err
