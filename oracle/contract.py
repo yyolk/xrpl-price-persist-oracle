@@ -10,6 +10,7 @@ from typing import List
 import xrp_price_aggregate
 
 from xrpl.account import get_next_valid_seq_number
+from xrpl.asyncio.transaction.reliable_submission import XRPLReliableSubmissionException
 from xrpl.clients import JsonRpcClient
 from xrpl.ledger import get_fee, get_latest_validated_ledger_sequence
 from xrpl.models.amounts import IssuedCurrencyAmount
@@ -180,18 +181,31 @@ def handler(
     # Sign the transaction
     trustset_tx_signed = safe_sign_transaction(trustset_tx, wallet)
 
-    # The response from sending the transaction
-    tx_response = send_reliable_submission(trustset_tx_signed, xrpl_client)
+    try:
+        # The response from sending the transaction
+        tx_response = send_reliable_submission(trustset_tx_signed, xrpl_client)
 
-    # Log the results
-    if tx_response.is_successful():
-        logger.info(
-            "Persisted last price $%s at %s",
-            xrp_agg["filtered_median"],
-            ripple_time_to_datetime(tx_response.result["date"]),
-        )
-    else:
-        # NOTE: if the submission errored, we could raise an exception
-        #       instead of just logger.error(...)
-        #       Lambda will retry the function twice for a total of 3 times
-        logger.error("Unsucessful transaction response: %s", tx_response)
+        # Log the results
+        if tx_response.is_successful():
+            logger.info(
+                "Persisted last price $%s at %s",
+                xrp_agg["filtered_median"],
+                ripple_time_to_datetime(tx_response.result["date"]),
+            )
+        else:
+            # NOTE: if the submission errored, we could raise an exception
+            #       instead of just logger.error(...)
+            #       Lambda will retry the function twice for a total of 3 times
+            logger.error("Unsucessful transaction response: %s", tx_response)
+    except XRPLReliableSubmissionException as err:
+        if str(err).startswith("Transaction failed, telINSUF_FEE_P"):
+            # we'll need to retry
+            raise err
+        if str(err).startswith("Transaction failed, tefPAST_SEQ"):
+            # we should retry, we didn't match our expected SLA
+            return
+        if str(err).startswith("Transaction failed, terQUEUED"):
+            # our txn will send, this is fine?
+            return
+        logger.error("Got unexpected XRPLReliableSubmissionException: %s", err)
+
