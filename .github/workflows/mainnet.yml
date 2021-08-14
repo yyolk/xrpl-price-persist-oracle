@@ -11,9 +11,16 @@ jobs:
     environment:
       name: mainnet
       url: https://explorer.xrplf.org/rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU
+    env:
+      XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
+      XRPL_NODE_ENVIRONMENT: Mainnet
+      STACK_NAME: xrpl-price-oracle-sam-livenet
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Get short SHA
+        id: short_sha
+        run: echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -27,10 +34,6 @@ jobs:
       - name: Build
         run: sam build
       - name: Deploy
-        env:
-          XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
-          XRPL_NODE_ENVIRONMENT: Mainnet
-          STACK_NAME: xrpl-price-oracle-sam-livenet
         run: >-
           sam deploy
           --no-confirm-changeset
@@ -38,7 +41,7 @@ jobs:
           --stack-name $STACK_NAME
           --capabilities CAPABILITY_IAM
           --parameter-overrides="
-            ParameterKey=GitCommit,ParameterValue=\"$GITHUB_SHA\"
+            ParameterKey=GitCommit,ParameterValue=\"${{ steps.short_sha.outputs.short_sha }}\"
             ParameterKey=XRPLNodeJsonRpcUrl,ParamaterValue=\"$XRPL_NODE_JSON_RPC_URL\"
             ParameterKey=XRPLNodeEnvironment,ParameterValue=\"$XRPL_NODE_ENVIRONMENT\"
           "

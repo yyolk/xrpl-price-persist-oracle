@@ -17,11 +17,19 @@ jobs:
     environment: 
       name: testnet
       url: https://explorer-testnet.xrplf.org/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN
+    env:
+      XRPL_NODE_JSON_RPC_URL: https://s.altnet.rippletest.net:51234
+      XRPL_NODE_ENVIRONMENT: Testnet
+      STACK_NAME: xrpl-price-oracle-sam-test
+      SCHEDULE_INTERVAL: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.pull_request.head.sha }}
+      - name: Get short SHA
+        id: short_sha
+        run: echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -35,12 +43,6 @@ jobs:
       - name: Build
         run: sam build
       - name: Deploy
-        env:
-          XRPL_NODE_JSON_RPC_URL: https://s.altnet.rippletest.net:51234
-          XRPL_NODE_ENVIRONMENT: Testnet
-          STACK_NAME: xrpl-price-oracle-sam-test
-          GIT_COMMIT: ${{ github.event.pull_request.head.sha }}
-          SCHEDULE_INTERVAL: 5
         run: >-
           sam deploy
           --no-confirm-changeset
@@ -48,7 +50,7 @@ jobs:
           --stack-name $STACK_NAME
           --capabilities CAPABILITY_IAM
           --parameter-overrides="
-            ParameterKey=GitCommit,ParameterValue=\"$GIT_COMMIT\"
+            ParameterKey=GitCommit,ParameterValue=\"${{ steps.short_sha.outputs.short_sha }}\"
             ParameterKey=XRPLNodeJsonRpcUrl,ParamaterValue=\"$XRPL_NODE_JSON_RPC_URL\"
             ParameterKey=XRPLNodeEnvironment,ParameterValue=\"$XRPL_NODE_ENVIRONMENT\"
             ParameterKey=ScheduleInterval,ParameterValue=\"$SCHEDULE_INTERVAL\"
