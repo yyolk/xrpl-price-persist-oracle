@@ -80,9 +80,7 @@ def gen_iou_amount(value: str) -> IssuedCurrencyAmount:
 def gen_memo(memo_data: str, memo_format: str, memo_type: str) -> Memo:
     """Utility for wrapping our encoding requirement"""
     return Memo(
-        memo_data=hexlify(
-            memo_data.encode("utf-8")
-        ).decode(),
+        memo_data=hexlify(memo_data.encode("utf-8")).decode(),
         memo_format=hexlify(memo_format.encode("utf-8")).decode(),
         memo_type=hexlify(memo_type.encode("utf-8")).decode(),
     )
@@ -163,8 +161,6 @@ def handler(
     # under an `oracle` prefix
     memos.append(gen_memo(GIT_COMMIT, "text/plain", "oracle:GITSHA"))
 
-    
-
     # Generate the IssuedCurrencyAmount with the provided value
     iou_amount: IssuedCurrencyAmount = gen_iou_amount(str(xrp_agg["filtered_median"]))
 
@@ -208,4 +204,3 @@ def handler(
             # our txn will send, this is fine?
             return
         logger.error("Got unexpected XRPLReliableSubmissionException: %s", err)
-
