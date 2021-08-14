@@ -21,7 +21,6 @@ jobs:
       XRPL_NODE_JSON_RPC_URL: https://s.altnet.rippletest.net:51234
       XRPL_NODE_ENVIRONMENT: Testnet
       STACK_NAME: xrpl-price-oracle-sam-test
-      GIT_COMMIT: ${{ github.event.pull_request.head.sha }}
       SCHEDULE_INTERVAL: 5
     runs-on: ubuntu-latest
     steps:
@@ -31,7 +30,6 @@ jobs:
       - name: Get short SHA
         id: short_sha
         run: echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
-      - run: echo ${{ steps.short_sha.outputs.short_sha }}
       - name: Set up Python 3.8
         uses: actions/setup-python@v2
         with:
@@ -52,7 +50,7 @@ jobs:
           --stack-name $STACK_NAME
           --capabilities CAPABILITY_IAM
           --parameter-overrides="
-            ParameterKey=GitCommit,ParameterValue=\"$GIT_COMMIT\"
+            ParameterKey=GitCommit,ParameterValue=\"${{ steps.short_sha.outputs.short_sha }}\"
             ParameterKey=XRPLNodeJsonRpcUrl,ParamaterValue=\"$XRPL_NODE_JSON_RPC_URL\"
             ParameterKey=XRPLNodeEnvironment,ParameterValue=\"$XRPL_NODE_ENVIRONMENT\"
             ParameterKey=ScheduleInterval,ParameterValue=\"$SCHEDULE_INTERVAL\"
