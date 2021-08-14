@@ -206,7 +206,11 @@ def handler(
             return
         logger.error("Got unexpected XRPLReliableSubmissionException: %s", err)
     except JSONDecodeError as err:
-        logger.error("Got a JSONDecodeError %s, retrying the transaction by
-                     failing", err)
+        logger.error(
+            (
+                "Got a JSONDecodeError %s, retrying the transaction by"
+                " failing this execution"
+            ),
+            err,
+        )
         raise err
-
