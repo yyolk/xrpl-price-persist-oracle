@@ -5,6 +5,7 @@ import os
 import logging
 
 from binascii import hexlify
+from json import JSONDecodeError
 from typing import List
 
 import xrp_price_aggregate
@@ -204,3 +205,8 @@ def handler(
             # our txn will send, this is fine?
             return
         logger.error("Got unexpected XRPLReliableSubmissionException: %s", err)
+    except JSONDecodeError as err:
+        logger.error("Got a JSONDecodeError %s, retrying the transaction by
+                     failing", err)
+        raise err
+
