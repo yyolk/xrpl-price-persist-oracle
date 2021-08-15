@@ -40,6 +40,13 @@ wallet = Wallet(seed=WALLET_SECRET, sequence=None)
 base_fee = get_fee(xrpl_client)
 
 
+class FailedExecutionWillRetry(Exception):
+    """Raise when you want to retry
+    Defer to execution environment to limit retry executions.
+    """
+    pass
+
+
 def gen_iou_amount(value: str) -> IssuedCurrencyAmount:
     """Returns a IssuedCurrencyAmount, at the value given.
 
@@ -215,4 +222,4 @@ def handler(
             ),
             err,
         )
-        raise err
+        raise FailedExecutionWillRetry("Got JSONDecodeError, will retry") from err
