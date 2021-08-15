@@ -91,7 +91,7 @@ Resources:
             Description: The interval this function will be invoked
             Enabled: true
       Policies:
-        - CloudWatchPutMetricPolicy: {}
+        - CloudwatchPutMetricPolicy
 
 Outputs:
   OracleFunction:
