@@ -213,6 +213,12 @@ def handler(
             # our txn will send, this is fine?
             logger.info("Our txn send reliable submission failed with terQUEUED")
             return
+        if str(err).startswith("Transaction failed, telINSUF_FEE_P"):
+            logger.info(
+                "The fee and our expected closing ledger sequence (+4)"
+                " could not be matched"
+            )
+            raise FailedExecutionWillRetry("Fee was too high") from err
         logger.error("Got unexpected XRPLReliableSubmissionException: %s", err)
     except JSONDecodeError as err:
         logger.error(
