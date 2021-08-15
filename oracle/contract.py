@@ -42,7 +42,7 @@ base_fee = get_fee(xrpl_client)
 # i like to use the service resource if its available
 cloudwatch = boto3.resource("cloudwatch")
 price_USD_metric = cloudwatch.Metric(
-    f"xrpl/{'mainnet' if MAINNET else 'testnet'}/oracle", "price_USD"
+    f"xrpl/${'mainnet' if MAINNET else 'testnet'}/oracle", "price_USD"
 )
 
 
@@ -205,14 +205,7 @@ def handler(
                 xrp_agg["filtered_median"],
                 ripple_time_to_datetime(tx_response.result["date"]),
             )
-            price_USD_metric.put_data(
-                MetricData=[{
-                    "MetricName": price_USD_metric.name,
-                    "Value": float(oracle_concluded_price),
-                    "StorageResolution": 1,
-                }]
-            )
-            # price_USD_metric.put_data(Value=float(oracle_concluded_price))
+            price_USD_metric.put_data(float(oracle_concluded_price ))
         else:
             # NOTE: if the submission errored, we could raise an exception
             #       instead of just logger.error(...)
