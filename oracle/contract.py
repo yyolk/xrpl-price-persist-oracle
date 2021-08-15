@@ -8,6 +8,7 @@ from binascii import hexlify
 from json import JSONDecodeError
 from typing import List
 
+import boto3
 import xrp_price_aggregate
 
 from xrpl.account import get_next_valid_seq_number

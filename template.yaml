@@ -90,6 +90,8 @@ Resources:
               - !Sub "rate(${ScheduleInterval} minutes)"
             Description: The interval this function will be invoked
             Enabled: true
+      Policies:
+        - CloudwatchPutMetricPolicy
 
 Outputs:
   OracleFunction:
