@@ -90,9 +90,6 @@ Resources:
               - !Sub "rate(${ScheduleInterval} minutes)"
             Description: The interval this function will be invoked
             Enabled: true
-      Policies:
-        - SSMParameterReadPolicy:
-            ParameterName: xrpl-oracle/test/wallet/secret
 
 Outputs:
   OracleFunction:
@@ -101,4 +98,3 @@ Outputs:
   OracleFunctionIamRole:
     Description: "Implicit IAM Role created for Oracle Function"
     Value: !GetAtt OracleFunctionRole.Arn
-
