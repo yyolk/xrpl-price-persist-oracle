@@ -42,7 +42,7 @@ base_fee = get_fee(xrpl_client)
 # i like to use the service resource if its available
 cloudwatch = boto3.resource("cloudwatch")
 price_USD_metric = cloudwatch.Metric(
-    f"xrpl/${'mainnet' if MAINNET else 'testnet'}/oracle", "price_USD"
+    f"xrpl/{'mainnet' if MAINNET else 'testnet'}/oracle", "price_USD"
 )
 
 
