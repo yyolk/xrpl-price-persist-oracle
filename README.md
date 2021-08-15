@@ -106,6 +106,21 @@ This includes some additional costs if the function needs to cold start (assumin
 persisting the client in the outer scope for subsequent executions).
 (_see [Sharing Secrets with AWS Lambda Using AWS Systems Manager Parameter Store](https://aws.amazon.com/blogs/compute/sharing-secrets-with-aws-lambda-using-aws-systems-manager-parameter-store/)_)
 
+You'll want to attach a policy to the function like in [`5603945`](https://github.com/yyolk/xrpl-price-persist-oracle-sam/blob/c8982dddf080b0cf6a75907aad0467dc9e3b8dd4/template.yaml#L93-L95)
+include a policy attached to the `OracleFunction` resource under the
+`Properties` dict.
+
+
+```yaml
+    Properties:
+      CodeUri: oracle/
+      Handler: contract.handler
+      Runtime: python3.8
+      Policies:
+        - SSMParameterReadPolicy:
+            ParameterName: xrpl-oracle/test/wallet/secret
+```
+
 Another is Secrets Manager `aws-secrets-manager`, which is also an additional cost.
 (_see [secretsmanager_basics.py](https://docs.aws.amazon.com/code-samples/latest/catalog/python-secretsmanager-secretsmanager_basics.py.html)_)
 
