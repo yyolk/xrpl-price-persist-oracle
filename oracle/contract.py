@@ -170,7 +170,7 @@ def handler(
     logger.debug(event)
 
     # exhaustive, include ccxt exchanges that provide more data than we'll use
-    xrp_agg = xrp_price_aggregate.as_dict(count=3, delay=1.6, fast=False)
+    xrp_agg = xrp_price_aggregate.as_dict(count=3, delay=1.6, fast=False, oracle=True)
 
     logger.debug("xrp_agg is %s", xrp_agg)
 
