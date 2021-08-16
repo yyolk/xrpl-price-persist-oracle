@@ -209,7 +209,6 @@ def handler(
                 MetricData=[{
                     "MetricName": price_USD_metric.name,
                     "Value": float(oracle_concluded_price),
-                    "Unit": "USD",
                     "StorageResolution": 1,
                 }]
             )
