@@ -235,6 +235,8 @@ def handler(
                 ]
             )
             last_exec_file.write("0")
+            # let's just close the file?
+            # last_exec_file.close()
         else:
             # NOTE: if the submission errored, we could raise an exception
             #       instead of just logger.error(...)
