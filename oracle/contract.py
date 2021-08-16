@@ -208,7 +208,9 @@ def handler(
             price_USD_metric.put_data(
                 MetricData=[{
                     "MetricName": price_USD_metric.name,
-                    "Value": float(oracle_concluded_price)
+                    "Value": float(oracle_concluded_price),
+                    "Unit": "USD",
+                    "StorageResolution": 1,
                 }]
             )
             # price_USD_metric.put_data(Value=float(oracle_concluded_price))
