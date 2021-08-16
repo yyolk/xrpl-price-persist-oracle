@@ -190,6 +190,8 @@ def handler(
 
     oracle_concluded_price = xrp_agg["filtered_median"]
     escape_hatch_set = datetime.now()
+    # drop the contents and rewind the tape
+    last_exec_file.seek(last_exec_file.truncate(0))
     last_exec_file.write(
         f"{escape_hatch_set.isoformat()};{oracle_concluded_price};".encode("utf-8")
     )
