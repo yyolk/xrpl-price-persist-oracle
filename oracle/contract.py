@@ -174,19 +174,25 @@ def handler(
     logger.debug("xrp_agg is %s", xrp_agg)
 
     # check the escape hatch
-    last_exec_file.seek(0)
-    if len(last_exec_data := last_exec_file.read()):
-        last_price_time, last_price, *last_exec_status = last_exec_data.split(";")
-        logger.info(
-            "Last time we saw the price of %s at %s. The execution ended with %s",
-            last_price,
-            last_price_time,
-            last_exec_status,
-        )
+    if last_exec_file.closed:
+        # re-make
+        last_exec_file = tempfile.TemporaryFile()
+    else:
+        last_exec_file.seek(0)
+        if len(last_exec_data := last_exec_file.read().decode()):
+            last_price_time, last_price, *last_exec_status = last_exec_data.split(";")
+            logger.info(
+                "Last time we saw the price of %s at %s. The execution ended with %s",
+                last_price,
+                last_price_time,
+                last_exec_status,
+            )
 
     oracle_concluded_price = xrp_agg["filtered_median"]
     escape_hatch_set = datetime.now()
-    last_exec_file.write(f"{escape_hatch_set.isoformat()};{oracle_concluded_price};".encode("utf-8"))
+    last_exec_file.write(
+        f"{escape_hatch_set.isoformat()};{oracle_concluded_price};".encode("utf-8")
+    )
 
     current_validated_ledger = get_latest_validated_ledger_sequence(client=xrpl_client)
     wallet.sequence = get_next_valid_seq_number(wallet.classic_address, xrpl_client)
@@ -236,7 +242,7 @@ def handler(
             )
             last_exec_file.write(b"0")
             # let's just close the file?
-            # last_exec_file.close()
+            last_exec_file.close()
         else:
             # NOTE: if the submission errored, we could raise an exception
             #       instead of just logger.error(...)
