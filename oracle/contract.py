@@ -8,6 +8,7 @@ from binascii import hexlify
 from json import JSONDecodeError
 from typing import List
 
+import boto3
 import xrp_price_aggregate
 
 from xrpl.account import get_next_valid_seq_number
@@ -38,12 +39,18 @@ logger.setLevel(logging.INFO)
 xrpl_client = JsonRpcClient(XRPL_JSON_RPC_URL)
 wallet = Wallet(seed=WALLET_SECRET, sequence=None)
 base_fee = get_fee(xrpl_client)
+# i like to use the service resource if its available
+cloudwatch = boto3.resource("cloudwatch")
+price_USD_metric = cloudwatch.Metric(
+    f"xrpl/{'mainnet' if MAINNET else 'testnet'}/oracle", "price_USD"
+)
 
 
 class FailedExecutionWillRetry(Exception):
     """Raise when you want to retry
     Defer to execution environment to limit retry executions.
     """
+
     pass
 
 
@@ -159,6 +166,8 @@ def handler(
 
     logger.debug("xrp_agg is %s", xrp_agg)
 
+    oracle_concluded_price = xrp_agg["filtered_median"]
+
     current_validated_ledger = get_latest_validated_ledger_sequence(client=xrpl_client)
     wallet.sequence = get_next_valid_seq_number(wallet.classic_address, xrpl_client)
 
@@ -170,7 +179,7 @@ def handler(
     memos.append(gen_memo(GIT_COMMIT, "text/plain", "oracle:GITSHA"))
 
     # Generate the IssuedCurrencyAmount with the provided value
-    iou_amount: IssuedCurrencyAmount = gen_iou_amount(str(xrp_agg["filtered_median"]))
+    iou_amount: IssuedCurrencyAmount = gen_iou_amount(str(oracle_concluded_price))
 
     # Create the transaction, we're doing a TrustSet
     trustset_tx = TrustSet(
@@ -196,6 +205,14 @@ def handler(
                 xrp_agg["filtered_median"],
                 ripple_time_to_datetime(tx_response.result["date"]),
             )
+            price_USD_metric.put_data(
+                MetricData=[{
+                    "MetricName": price_USD_metric.name,
+                    "Value": float(oracle_concluded_price),
+                    "StorageResolution": 1,
+                }]
+            )
+            # price_USD_metric.put_data(Value=float(oracle_concluded_price))
         else:
             # NOTE: if the submission errored, we could raise an exception
             #       instead of just logger.error(...)
@@ -208,7 +225,7 @@ def handler(
         if str(err).startswith("Transaction failed, tefPAST_SEQ"):
             # we should retry, we didn't match our expected SLA
             logger.error("we got a failed transaction past our expected SLA")
-            return
+            raise FailedExecutionWillRetry("We didn't meet our optimistic 4 ledger SLA")
         if str(err).startswith("Transaction failed, terQUEUED"):
             # our txn will send, this is fine?
             logger.info("Our txn send reliable submission failed with terQUEUED")
@@ -223,8 +240,8 @@ def handler(
     except JSONDecodeError as err:
         logger.error(
             (
-                "Got a JSONDecodeError %s, retrying the transaction by"
-                " failing this execution"
+                "Got a JSONDecodeError of '%s'."
+                " Retrying the transaction by failing this execution."
             ),
             err,
         )
