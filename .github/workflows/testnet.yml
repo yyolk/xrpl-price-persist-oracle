@@ -21,9 +21,7 @@ jobs:
       XRPL_NODE_JSON_RPC_URL: https://s.altnet.rippletest.net:51234
       XRPL_NODE_ENVIRONMENT: Testnet
       STACK_NAME: xrpl-price-oracle-sam-test
-      # SCHEDULE_INTERVAL: 5
-      # TODO: temporary 1 minute for matching results in mainnet
-      SCHEDULE_INTERVAL: 1
+      SCHEDULE_INTERVAL: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
