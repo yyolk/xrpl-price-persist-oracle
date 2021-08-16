@@ -3,8 +3,10 @@ xrpl-price-persist-oracle
 """
 import os
 import logging
+import tempfile
 
 from binascii import hexlify
+from datetime import datetime
 from json import JSONDecodeError
 from typing import List
 
@@ -44,6 +46,11 @@ cloudwatch = boto3.resource("cloudwatch")
 price_USD_metric = cloudwatch.Metric(
     f"xrpl/{'mainnet' if MAINNET else 'testnet'}/oracle", "price_USD"
 )
+# we have access to "/tmp" it's not guaranteed to be there, this is outside our
+# handler and will persist between subsequent executions, we can use this to
+# persist the price locally and publish it. we can also store info about the
+# last execution like if it failed and should be tried
+last_exec_file = tempfile.TemporaryFile()
 
 
 class FailedExecutionWillRetry(Exception):
@@ -166,7 +173,20 @@ def handler(
 
     logger.debug("xrp_agg is %s", xrp_agg)
 
+    # check the escape hatch
+    last_exec_file.seek(0)
+    if len(last_exec_data := last_exec_file.read()):
+        last_price_time, last_price, *last_exec_status = last_exec_data.split(";")
+        logger.info(
+            "Last time we saw the price of %s at %s. The execution ended with %s",
+            last_price,
+            last_price_time,
+            last_exec_status,
+        )
+
     oracle_concluded_price = xrp_agg["filtered_median"]
+    escape_hatch_set = datetime.now()
+    last_exec_file.write(f"{escape_hatch_set.isoformat()};{oracle_concluded_price};")
 
     current_validated_ledger = get_latest_validated_ledger_sequence(client=xrpl_client)
     wallet.sequence = get_next_valid_seq_number(wallet.classic_address, xrpl_client)
@@ -206,13 +226,15 @@ def handler(
                 ripple_time_to_datetime(tx_response.result["date"]),
             )
             price_USD_metric.put_data(
-                MetricData=[{
-                    "MetricName": price_USD_metric.name,
-                    "Value": float(oracle_concluded_price),
-                    "StorageResolution": 1,
-                }]
+                MetricData=[
+                    {
+                        "MetricName": price_USD_metric.name,
+                        "Value": float(oracle_concluded_price),
+                        "StorageResolution": 1,
+                    }
+                ]
             )
-            # price_USD_metric.put_data(Value=float(oracle_concluded_price))
+            last_exec_file.write("0")
         else:
             # NOTE: if the submission errored, we could raise an exception
             #       instead of just logger.error(...)
@@ -221,9 +243,13 @@ def handler(
     except XRPLReliableSubmissionException as err:
         if str(err).startswith("Transaction failed, telINSUF_FEE_P"):
             # we'll need to retry
-            raise err
+            last_exec_file.write("1")
+            raise FailedExecutionWillRetry(
+                "The ledger is overloaded, our fee didn't get us in for our SLA"
+            ) from err
         if str(err).startswith("Transaction failed, tefPAST_SEQ"):
             # we should retry, we didn't match our expected SLA
+            last_exec_file.write("1")
             logger.error("we got a failed transaction past our expected SLA")
             raise FailedExecutionWillRetry("We didn't meet our optimistic 4 ledger SLA")
         if str(err).startswith("Transaction failed, terQUEUED"):
@@ -235,9 +261,15 @@ def handler(
                 "The fee and our expected closing ledger sequence (+4)"
                 " could not be matched"
             )
+            last_exec_file.write("1")
             raise FailedExecutionWillRetry("Fee was too high") from err
+        last_exec_file.write("1")
         logger.error("Got unexpected XRPLReliableSubmissionException: %s", err)
+        raise FailedExecutionWillRetry(
+            "Unexpected unreliable submission result"
+        ) from err
     except JSONDecodeError as err:
+        last_exec_file.write("1")
         logger.error(
             (
                 "Got a JSONDecodeError of '%s'."
