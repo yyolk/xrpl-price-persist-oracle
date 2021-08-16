@@ -118,7 +118,10 @@ include a policy attached to the `OracleFunction` resource under the
       Runtime: python3.8
       Policies:
         - SSMParameterReadPolicy:
+            # this should be a path you decide, here's an example:
             ParameterName: xrpl-oracle/test/wallet/secret
+            # you can also use `!Sub`:
+            # ParameterName: !Sub "xrpl-oracle/${XRPLNodeEnvironment}/wallet/secret"
 ```
 
 Another is Secrets Manager `aws-secrets-manager`, which is also an additional cost.
