@@ -21,10 +21,10 @@ jobs:
       - name: Get short SHA
         id: short_sha
         run: echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
-      - name: Set up Python 3.8
+      - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
       - uses: aws-actions/setup-sam@v1
       - uses: aws-actions/configure-aws-credentials@v1
         with:
