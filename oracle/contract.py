@@ -253,8 +253,8 @@ def handler(
                         "Timestamp": tx_datetime,
                         "Dimensions": [
                             {
-                                "Name": "USD",
-                                "Value": oracle_concluded_price, 
+                                "Name": "Currency",
+                                "Value": "USD",
                             },
                         ]
                     },
