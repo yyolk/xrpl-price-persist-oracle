@@ -247,7 +247,7 @@ def handler(
                                 "Name": "Currency",
                                 "Value": "USD",
                             },
-                        ]
+                        ],
                     },
                 ]
             )
@@ -266,7 +266,9 @@ def handler(
                 " could not be matched"
             )
             last_exec_file.write(b"telINSUF_FEE_P")
-            raise FailedExecutionWillRetry("Fee was too high") from err
+            raise FailedExecutionWillRetry(
+                "Fee was too high. The ledger is overloaded, our fee didn't get us in for our SLA"
+            ) from err
         if str(err).startswith("Transaction failed, tefPAST_SEQ"):
             # we should retry, we didn't match our expected SLA
             last_exec_file.write(b"tefPAST_SEQ")
