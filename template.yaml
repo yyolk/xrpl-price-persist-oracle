@@ -73,7 +73,7 @@ Resources:
     Properties:
       CodeUri: oracle/
       Handler: contract.handler
-      Runtime: python3.8
+      Runtime: python3.9
       Environment:
         Variables:
           WALLET_SECRET: !Ref WalletSecret
