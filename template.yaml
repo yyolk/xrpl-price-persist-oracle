@@ -92,6 +92,59 @@ Resources:
             Enabled: true
       Policies:
         - CloudWatchPutMetricPolicy: {}
+        - S3WritePolicy:
+            BucketName: !Ref CloudwatchMetricWidgetImageBucket
+
+  CloudwatchMetricWidgetImageBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Delete
+    Properties:
+      AccessControl: private
+
+  CloudwatchMetricWidgetOriginAccessIdentity:
+    Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+    Properties:
+      CloudFrontOriginAccessIdentityConfig:
+        Comment: "For serving the current price graph in the project's README, with cache."
+
+  CloudwatchMetricWidgetDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Origins:
+        - DomainName: !GetAtt CloudwatchMetricWidgetImageBucket.DomainName
+          Id: !Sub "${CloudwatchMetricWidgetImageBucket}Origin"
+          S3OriginConfig:
+            OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${CloudwatchMetricWidgetOriginAccessIdentity}"
+        Enabled: 'true'
+        Comment: Distribution for serving the graph on the project README
+        DefaultRootObject: index.html
+        # Aliases:
+        # - mysite.example.com
+        # - yoursite.example.com
+        DefaultCacheBehavior:
+          AllowedMethods:
+          - GET
+          - HEAD
+          - OPTIONS
+          TargetOriginId: !Sub "${CloudwatchMetricWidgetImageBucket}Origin"
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          # TrustedSigners:
+          # - 1234567890EX
+          # - 1234567891EX
+          ViewerProtocolPolicy: allow-all
+        PriceClass: PriceClass_100
+        # Restrictions:
+        #   GeoRestriction:
+        #     RestrictionType: whitelist
+        #     Locations:
+        #     - AQ
+        #     - CV
+        ViewerCertificate:
+          CloudFrontDefaultCertificate: 'true'
 
 Outputs:
   OracleFunction:
