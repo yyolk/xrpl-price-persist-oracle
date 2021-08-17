@@ -43,9 +43,6 @@ wallet = Wallet(seed=WALLET_SECRET, sequence=None)
 base_fee = get_fee(xrpl_client)
 # i like to use the service resource if its available
 cloudwatch = boto3.resource("cloudwatch")
-price_USD_metric = cloudwatch.Metric(
-    f"xrpl/{'mainnet' if MAINNET else 'testnet'}/oracle", "price_USD"
-)
 price_metric = cloudwatch.Metric(
     f"xrpl/{'mainnet' if MAINNET else 'testnet'}/oracle", "price"
 )
@@ -240,12 +237,6 @@ def handler(
             )
             price_metric.put_data(
                 MetricData=[
-                    {
-                        "MetricName": price_USD_metric.name,
-                        "Value": float(oracle_concluded_price),
-                        "StorageResolution": 1,
-                        "Timestamp": tx_datetime,
-                    },
                     {
                         "MetricName": price_metric.name,
                         "Value": float(oracle_concluded_price),
