@@ -43,8 +43,8 @@ wallet = Wallet(seed=WALLET_SECRET, sequence=None)
 base_fee = get_fee(xrpl_client)
 # i like to use the service resource if its available
 cloudwatch = boto3.resource("cloudwatch")
-price_USD_metric = cloudwatch.Metric(
-    f"xrpl/{'mainnet' if MAINNET else 'testnet'}/oracle", "price_USD"
+price_metric = cloudwatch.Metric(
+    f"xrpl/{'mainnet' if MAINNET else 'testnet'}/oracle", "price"
 )
 # we have access to "/tmp" it's not guaranteed to be there, this is outside our
 # handler and will persist between subsequent executions, we can use this to
@@ -229,18 +229,26 @@ def handler(
 
         # Log the results
         if tx_response.is_successful():
+            tx_datetime = ripple_time_to_datetime(tx_response.result["date"])
             logger.info(
                 "Persisted last price $%s at %s",
-                xrp_agg["filtered_median"],
-                ripple_time_to_datetime(tx_response.result["date"]),
+                oracle_concluded_price,
+                tx_datetime,
             )
-            price_USD_metric.put_data(
+            price_metric.put_data(
                 MetricData=[
                     {
-                        "MetricName": price_USD_metric.name,
+                        "MetricName": price_metric.name,
                         "Value": float(oracle_concluded_price),
                         "StorageResolution": 1,
-                    }
+                        "Timestamp": tx_datetime,
+                        "Dimensions": [
+                            {
+                                "Name": "Currency",
+                                "Value": "USD",
+                            },
+                        ],
+                    },
                 ]
             )
             last_exec_file.write(b"0")
@@ -253,10 +261,13 @@ def handler(
             logger.error("Unsucessful transaction response: %s", tx_response)
     except XRPLReliableSubmissionException as err:
         if str(err).startswith("Transaction failed, telINSUF_FEE_P"):
-            # we'll need to retry
-            last_exec_file.write(b"1")
+            logger.info(
+                "The fee and our expected closing ledger sequence (+4)"
+                " could not be matched"
+            )
+            last_exec_file.write(b"telINSUF_FEE_P")
             raise FailedExecutionWillRetry(
-                "The ledger is overloaded, our fee didn't get us in for our SLA"
+                "Fee was too high. The ledger is overloaded, our fee didn't get us in for our SLA"
             ) from err
         if str(err).startswith("Transaction failed, tefPAST_SEQ"):
             # we should retry, we didn't match our expected SLA
@@ -268,14 +279,7 @@ def handler(
             last_exec_file.write(b"terQUEUED")
             logger.info("Our txn send reliable submission failed with terQUEUED")
             return
-        if str(err).startswith("Transaction failed, telINSUF_FEE_P"):
-            logger.info(
-                "The fee and our expected closing ledger sequence (+4)"
-                " could not be matched"
-            )
-            last_exec_file.write(b"telINSUF_FEE_P")
-            raise FailedExecutionWillRetry("Fee was too high") from err
-        last_exec_file.write(b"1")
+        last_exec_file.write(b"XRPLReliableSubmissionException")
         logger.error("Got unexpected XRPLReliableSubmissionException: %s", err)
         raise FailedExecutionWillRetry(
             "Unexpected unreliable submission result"
