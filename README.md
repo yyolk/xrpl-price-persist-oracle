@@ -1,11 +1,11 @@
-# xrpl-price-persist-oracle-sam
+# xrpl-price-persist-oracle
 
 ## Mainnet
 
 💳: `rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU`
 <kbd>[🧭][mainnet-account-xrplf]</kbd>
 
-▶️: [![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml)
+▶️: [![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle/actions/workflows/mainnet.yml)
 
 
 ## Testnet
@@ -13,12 +13,12 @@
 💳: `rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN`
 <kbd>[🧭][testnet-account-xrplf]</kbd>
 
-▶️: [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml)
+▶️: [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle/actions/workflows/testnet.yml)
 
 
 ## Prices via Oracle
 
-🚧 Gaps indicate the oracle didn't *reliably* publish during this time see [#27](https://github.com/yyolk/xrpl-price-persist-oracle-sam/issues/27) 🚧
+🚧 Gaps indicate the oracle didn't *reliably* publish during this time see [#27](https://github.com/yyolk/xrpl-price-persist-oracle/issues/27) 🚧
 
 <div align="center">
 
@@ -138,7 +138,7 @@ This includes some additional costs if the function needs to cold start (assumin
 persisting the client in the outer scope for subsequent executions).
 (_see [Sharing Secrets with AWS Lambda Using AWS Systems Manager Parameter Store](https://aws.amazon.com/blogs/compute/sharing-secrets-with-aws-lambda-using-aws-systems-manager-parameter-store/)_)
 
-You'll want to attach a policy to the function like in [`5603945`](https://github.com/yyolk/xrpl-price-persist-oracle-sam/blob/c8982dddf080b0cf6a75907aad0467dc9e3b8dd4/template.yaml#L93-L95)
+You'll want to attach a policy to the function like in [`5603945`](https://github.com/yyolk/xrpl-price-persist-oracle/blob/c8982dddf080b0cf6a75907aad0467dc9e3b8dd4/template.yaml#L93-L95)
 include a policy attached to the `OracleFunction` resource under the
 `Properties` dict.
 
