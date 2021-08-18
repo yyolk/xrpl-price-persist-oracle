@@ -16,7 +16,9 @@
 ▶️: [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml)
 
 
-## Price via Oracle
+## Prices via Oracle
+
+🚧 Gaps indicate the oracle didn't publish during this time see [#27](https://github.com/yyolk/xrpl-price-persist-oracle-sam/issues/27) 🚧
 
 <div align="center">
 
