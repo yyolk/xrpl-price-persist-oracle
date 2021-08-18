@@ -39,6 +39,8 @@ Parameters:
     Description: >-
       This is the wallet seed's secret for persisting the price.
       This wallet's seed will be used to sign transactions.
+      For more information see
+      https://github.com/yyolk/xrpl-price-persist-oracle-sam#note-on-noecho-cloudformation-parameter-for-wallet-secret-seed
   GitCommit:
     Type: String
     Default: ""
