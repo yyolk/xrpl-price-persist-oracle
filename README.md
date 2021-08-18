@@ -1,6 +1,22 @@
 # xrpl-price-persist-oracle-sam
 
-[![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml) [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml)
+## Mainnet
+
+💳: `rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU`
+[🧭][mainnet-account-xrplf]
+
+▶️: [![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml)
+
+
+## Testnet
+
+💳: `rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN`
+[🧭][testnet-account-xrplf]
+
+▶️: [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml)
+
+
+## Price via Oracle
 
 <div align="center">
 
@@ -145,4 +161,6 @@ There are many options! This is just a minimal example :)
 
 
 
+[mainnet-account-xrplf]: https://explorer.xrplf.org/rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU "rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU"
+[testnet-account-xrplf]: https://explorer-testnet.xrplf.org/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN "rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN"
 [example-testnet-account]: https://testnet.xrpl.org/accounts/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN "An example testnet account"
