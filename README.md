@@ -3,7 +3,7 @@
 ## Mainnet
 
 💳: `rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU`
-[🧭][mainnet-account-xrplf]
+<kbd>[🧭][mainnet-account-xrplf]</kbd>
 
 ▶️: [![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml)
 
@@ -11,7 +11,7 @@
 ## Testnet
 
 💳: `rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN`
-[🧭][testnet-account-xrplf]
+<kbd>[🧭][testnet-account-xrplf]</kbd>
 
 ▶️: [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml)
 
