@@ -18,7 +18,7 @@
 
 ## Prices via Oracle
 
-🚧 Gaps indicate the oracle didn't publish during this time see [#27](https://github.com/yyolk/xrpl-price-persist-oracle-sam/issues/27) 🚧
+🚧 Gaps indicate the oracle didn't *reliably* publish during this time see [#27](https://github.com/yyolk/xrpl-price-persist-oracle-sam/issues/27) 🚧
 
 <div align="center">
 
