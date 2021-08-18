@@ -2,6 +2,14 @@
 
 [![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/mainnet.yml) [![Testnet](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle-sam/actions/workflows/testnet.yml)
 
+<div align="center">
+
+![price USD PT-3H](https://d1nfdw5fckjov0.cloudfront.net/price_pt3h_line.png)
+
+![price USD PT-3H Mainnet & Testnet](https://d1nfdw5fckjov0.cloudfront.net/price_pt3h_line_allnets.png)
+
+</div>
+
 This is a XRPL Oracle that publishes external data into the XRPL.
 
 
