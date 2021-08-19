@@ -5,7 +5,6 @@ import os
 import logging
 import tempfile
 
-from binascii import hexlify
 from datetime import datetime
 from json import JSONDecodeError
 from typing import List
@@ -102,9 +101,9 @@ def gen_iou_amount(value: str) -> IssuedCurrencyAmount:
 def gen_memo(memo_data: str, memo_format: str, memo_type: str) -> Memo:
     """Utility for wrapping our encoding requirement"""
     return Memo(
-        memo_data=hexlify(memo_data.encode("utf-8")).decode(),
-        memo_format=hexlify(memo_format.encode("utf-8")).decode(),
-        memo_type=hexlify(memo_type.encode("utf-8")).decode(),
+        memo_data=memo_data.encode("utf-8").hex(),
+        memo_format=memo_format.encode("utf-8").hex(),
+        memo_type=memo_type.encode("utf-8").hex(),
     )
 
 
@@ -133,11 +132,9 @@ def gen_memos(raw_results_named) -> List[Memo]:
     for exchange, values in raw_results_named.items():
         memos.append(
             Memo(
-                memo_data=hexlify(
-                    ";".join(map(lambda v: f"{v:.5f}", values)).encode("utf-8")
-                ).decode(),
-                memo_format=hexlify("text/csv".encode("utf-8")).decode(),
-                memo_type=hexlify(f"rates:{exchange.upper()}".encode("utf-8")).decode(),
+                memo_data=";".join(map(lambda v: f"{v:.5f}", values)).encode("utf-8").hex(),
+                memo_format="text/csv".encode("utf-8").hex(),
+                memo_type=f"rates:{exchange.upper()}".encode("utf-8").hex(),
             )
         )
     return memos
