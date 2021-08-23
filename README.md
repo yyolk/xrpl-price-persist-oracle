@@ -25,6 +25,8 @@
 ![price USD PT-3H](https://d1nfdw5fckjov0.cloudfront.net/3h)
 
 ![price USD PT-1D](https://d1nfdw5fckjov0.cloudfront.net/1d)
+
+![price USD PT-7D](https://d1nfdw5fckjov0.cloudfront.net/7d)
  
 <details><summary> This shows the Testnet updates less frequently than the mainnet. </summary>
 
