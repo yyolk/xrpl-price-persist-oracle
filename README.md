@@ -18,6 +18,8 @@
 
 ## Prices via Oracle
 
+_These graphs are generated from the CloudWatch Metric data pushed in the [contract](oracle/contract.py), the code that generates these images is in the [metrics repo](https://github.com/yyolk/xrpl-price-persist-oracle-metrics)_
+
 🚧 Gaps indicate the oracle didn't *reliably* publish during this time see [#27](https://github.com/yyolk/xrpl-price-persist-oracle/issues/27) 🚧
 
 <div align="center">
