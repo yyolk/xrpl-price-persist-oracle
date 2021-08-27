@@ -24,15 +24,15 @@ _These graphs are generated from the CloudWatch Metric data pushed in the [contr
 
 <div align="center">
 
-![price USD PT-3H](https://d1nfdw5fckjov0.cloudfront.net/3h)
+![price USD PT-3H](https://imgs.egge.gg/3h)
 
-![price USD PT-1D](https://d1nfdw5fckjov0.cloudfront.net/1d)
+![price USD PT-1D](https://imgs.egge.gg/1d)
 
-![price USD PT-7D](https://d1nfdw5fckjov0.cloudfront.net/7d)
+![price USD PT-7D](https://imgs.egge.gg/7d)
  
 <details><summary> This shows the Testnet updates less frequently than the mainnet. </summary>
 
-![price USD PT-3H Mainnet & Testnet](https://d1nfdw5fckjov0.cloudfront.net/3h_all)
+![price USD PT-3H Mainnet & Testnet](https://imgs.egge.gg/3h_all)
 
 </details>
 
