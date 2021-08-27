@@ -14,26 +14,14 @@ on:
 jobs:
   build-deploy:
     concurrency: testnet
-    # TODO #37
-    # environment: 
-    #   name: testnet
-    #   url: https://explorer-testnet.xrplf.org/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN
     environment: 
-      # temporarily testnet will be detached from this workflow the merge will
-      # remove this
       name: testnet
-      url: https://explorer.xrplf.org/rEGGEgg9hQSHLxUwycGnmjW2GKX9thn2yH
+      url: https://explorer-testnet.xrplf.org/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN
     env:
-      # TODO #37
-      # XRPL_NODE_JSON_RPC_URL: https://s.altnet.rippletest.net:51234
-      # XRPL_NODE_ENVIRONMENT: Testnet
-      # STACK_NAME: xrpl-price-oracle-sam-test
-      # SCHEDULE_INTERVAL: 5
-      XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
-      XRPL_NODE_ENVIRONMENT: Mainnet
-      SCHEDULE_INTERVAL: 1
-      # fixes name :)
-      STACK_NAME: xrpl-price-persist-oracle-mainnet
+      XRPL_NODE_JSON_RPC_URL: https://s.altnet.rippletest.net:51234
+      XRPL_NODE_ENVIRONMENT: Testnet
+      STACK_NAME: xrpl-price-oracle-sam-test
+      SCHEDULE_INTERVAL: 5
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

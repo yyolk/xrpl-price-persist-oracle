@@ -1,8 +1,6 @@
 name: Mainnet
 
 on:
-  # push:
-  #   branches: [ EGGEgg-wallet-20210826 ]
   push:
     branches: [ main ]
 
@@ -12,8 +10,6 @@ jobs:
     concurrency: mainnet
     environment:
       name: mainnet
-      # url: https://explorer.xrplf.org/rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU
-      # #37
       url: https://explorer.xrplf.org/rEGGEgg9hQSHLxUwycGnmjW2GKX9thn2yH
     env:
       XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
