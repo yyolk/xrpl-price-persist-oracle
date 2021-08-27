@@ -18,7 +18,7 @@ jobs:
     env:
       XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
       XRPL_NODE_ENVIRONMENT: Mainnet
-      STACK_NAME: xrpl-price-oracle-sam-livenet
+      STACK_NAME: xrpl-price-persist-oracle-mainnet
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
