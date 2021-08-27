@@ -2,7 +2,7 @@
 
 ## Mainnet
 
-💳: `rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU`
+💳: `rEGGEgg9hQSHLxUwycGnmjW2GKX9thn2yH`
 <kbd>[🧭][mainnet-account-xrplf]</kbd>
 
 ▶️: [![Mainnet](https://github.com/yyolk/xrpl-price-persist-oracle/actions/workflows/mainnet.yml/badge.svg)](https://github.com/yyolk/xrpl-price-persist-oracle/actions/workflows/mainnet.yml)
@@ -167,6 +167,6 @@ There are many options! This is just a minimal example :)
 
 
 
-[mainnet-account-xrplf]: https://explorer.xrplf.org/rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU "rEGGDggxupqxJ3ZbDTLUzKtpHxHyhtUtiU"
+[mainnet-account-xrplf]: https://explorer.xrplf.org/rEGGEgg9hQSHLxUwycGnmjW2GKX9thn2yH "rEGGEgg9hQSHLxUwycGnmjW2GKX9thn2yH"
 [testnet-account-xrplf]: https://explorer-testnet.xrplf.org/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN "rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN"
 [example-testnet-account]: https://testnet.xrpl.org/accounts/rayZw5nJmueB5ps2bfL85aJgiKub7FsVYN "An example testnet account"
