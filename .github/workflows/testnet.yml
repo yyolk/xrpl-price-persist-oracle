@@ -1,7 +1,7 @@
 name: Testnet
 
 on:
-  # When you need to test, branch configurations for the mainnet workflow,
+  # When you need to test, branch configurations e.g.,for the mainnet workflow,
   # uncomment this
   # push:
   #   branches: [ dev-gh-action ]
