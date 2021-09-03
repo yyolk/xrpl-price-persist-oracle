@@ -19,7 +19,6 @@ from xrpl.ledger import get_fee, get_latest_validated_ledger_sequence
 from xrpl.models.amounts import IssuedCurrencyAmount
 from xrpl.models.transactions import Memo, TrustSetFlag
 from xrpl.models.transactions import TrustSet
-
 from xrpl.transaction import (
     safe_sign_and_autofill_transaction,
     send_reliable_submission,
