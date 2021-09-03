@@ -21,7 +21,9 @@ jobs:
       XRPL_NODE_JSON_RPC_URL: https://s.altnet.rippletest.net:51234
       XRPL_NODE_ENVIRONMENT: Testnet
       STACK_NAME: xrpl-price-oracle-sam-test
-      SCHEDULE_INTERVAL: 5
+      # SCHEDULE_INTERVAL: 5
+      # Test 1 minute with +20 delta ledgers refs: https://github.com/XRPLF/xrpl-py/blob/bf360990530b845ab742bb1931b91c72a98db3d3/xrpl/asyncio/transaction/main.py#L25
+      SCHEDULE_INTERVAL: 1
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2

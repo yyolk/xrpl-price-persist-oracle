@@ -20,7 +20,6 @@ from xrpl.models.amounts import IssuedCurrencyAmount
 from xrpl.models.transactions import Memo, TrustSetFlag
 from xrpl.models.transactions import TrustSet
 
-# from xrpl.transaction import safe_sign_transaction, send_reliable_submission
 from xrpl.transaction import (
     safe_sign_and_autofill_transaction,
     send_reliable_submission,
@@ -223,11 +222,9 @@ def handler(
         limit_amount=iou_amount,
         # TODO
         # last_ledger_sequence=current_validated_ledger + 4,
-        # sequence=wallet.sequence,
         memos=memos,
     )
     # Sign the transaction
-    # trustset_tx_signed = safe_sign_transaction(trustset_tx, wallet)
     trustset_tx_signed = safe_sign_and_autofill_transaction(
         trustset_tx, wallet, xrpl_client
     )
