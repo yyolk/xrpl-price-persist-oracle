@@ -200,10 +200,6 @@ def handler(
         f"{escape_hatch_set.isoformat()};{oracle_concluded_price};".encode("utf-8")
     )
 
-    # TODO
-    # current_validated_ledger = get_latest_validated_ledger_sequence(client=xrpl_client)
-    # wallet.sequence = get_next_valid_seq_number(wallet.classic_address, xrpl_client)
-
     # Generate the memos we'll attach to the transaction, for independent
     # verification of results
     memos: List[Memo] = gen_memos(xrp_agg["raw_results_named"])
@@ -220,8 +216,6 @@ def handler(
         fee=base_fee,
         flags=TrustSetFlag.TF_SET_NO_RIPPLE,
         limit_amount=iou_amount,
-        # TODO
-        # last_ledger_sequence=current_validated_ledger + 4,
         memos=memos,
     )
     # Sign the transaction
