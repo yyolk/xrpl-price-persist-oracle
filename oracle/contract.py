@@ -261,8 +261,7 @@ def handler(
     except XRPLReliableSubmissionException as err:
         if str(err).startswith("Transaction failed, telINSUF_FEE_P"):
             logger.info(
-                "The fee and our expected closing ledger sequence (+4)"
-                " could not be matched"
+                "The fee and our expected closing ledger sequence could not be matched"
             )
             last_exec_file.write(b"telINSUF_FEE_P")
             raise FailedExecutionWillRetry(
@@ -272,7 +271,7 @@ def handler(
             # we should retry, we didn't match our expected SLA
             last_exec_file.write(b"tefPAST_SEQ")
             logger.error("we got a failed transaction past our expected SLA")
-            raise FailedExecutionWillRetry("We didn't meet our optimistic 4 ledger SLA")
+            raise FailedExecutionWillRetry("We didn't meet our optimistic SLA")
         if str(err).startswith("Transaction failed, terQUEUED"):
             # our txn will send, this is fine?
             last_exec_file.write(b"terQUEUED")
