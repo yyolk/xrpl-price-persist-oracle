@@ -1,2 +1,2 @@
-xrp-price-aggregate==0.0.14
+xrp-price-aggregate==0.0.15
 xrpl-py~=1.1.1
