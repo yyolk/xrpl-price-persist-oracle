@@ -217,12 +217,12 @@ def handler(
         limit_amount=iou_amount,
         memos=memos,
     )
-    # Sign the transaction
-    trustset_tx_signed = safe_sign_and_autofill_transaction(
-        transaction=trustset_tx, wallet=wallet, client=xrpl_client, check_fee=False
-    )
-
     try:
+        # Sign the transaction
+        trustset_tx_signed = safe_sign_and_autofill_transaction(
+            transaction=trustset_tx, wallet=wallet, client=xrpl_client, check_fee=False
+        )
+
         # The response from sending the transaction
         tx_response = send_reliable_submission(trustset_tx_signed, xrpl_client)
 
