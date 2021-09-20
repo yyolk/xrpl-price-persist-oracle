@@ -217,10 +217,11 @@ def handler(
         limit_amount=iou_amount,
         memos=memos,
     )
+
     try:
         # Sign the transaction
         trustset_tx_signed = safe_sign_and_autofill_transaction(
-            transaction=trustset_tx, wallet=wallet, client=xrpl_client, check_fee=False
+            trustset_tx, wallet, xrpl_client
         )
 
         # The response from sending the transaction
