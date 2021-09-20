@@ -219,7 +219,7 @@ def handler(
     )
     # Sign the transaction
     trustset_tx_signed = safe_sign_and_autofill_transaction(
-        trustset_tx, wallet, xrpl_client
+        transaction=trustset_tx, wallet=wallet, client=xrpl_client, check_fee=False
     )
 
     try:
