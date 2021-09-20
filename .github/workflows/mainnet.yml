@@ -12,7 +12,8 @@ jobs:
       name: mainnet
       url: https://explorer.xrplf.org/rEGGEgg9hQSHLxUwycGnmjW2GKX9thn2yH
     env:
-      XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
+      # XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
+      XRPL_NODE_JSON_RPC_URL: https://s1.ripple.com:51234/
       XRPL_NODE_ENVIRONMENT: Mainnet
       STACK_NAME: xrpl-price-persist-oracle-mainnet
     runs-on: ubuntu-latest
