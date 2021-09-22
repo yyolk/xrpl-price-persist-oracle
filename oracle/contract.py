@@ -292,6 +292,4 @@ def handler(
             ),
             err,
         )
-        # TODO: we'll swallow this for now
-        return
-        # raise FailedExecutionWillRetry("Got JSONDecodeError, will retry") from err
+        raise FailedExecutionWillRetry("Got JSONDecodeError, will retry") from err
