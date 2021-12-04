@@ -15,6 +15,7 @@ jobs:
       XRPL_NODE_JSON_RPC_URL: https://xrplcluster.com
       XRPL_NODE_ENVIRONMENT: Mainnet
       STACK_NAME: xrpl-price-persist-oracle-mainnet
+      SCHEDULE_INTERVAL: 90
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
