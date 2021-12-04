@@ -212,7 +212,8 @@ def handler(
     # Create the transaction, we're doing a TrustSet
     trustset_tx = TrustSet(
         account=wallet.classic_address,
-        fee=base_fee,
+#         TODO: use autofill for fee
+#         fee=base_fee,
         flags=TrustSetFlag.TF_SET_NO_RIPPLE,
         limit_amount=iou_amount,
         memos=memos,
